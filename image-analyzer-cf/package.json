@@ -1,6 +1,6 @@
 {
-    "name": "sample-cloud-storage",
-    "version": "0.0.1",
+    "name": "image-analyzer-cf",
+    "version": "1.0.0",
     "dependencies": {
       "@google-cloud/storage": "^1.6.0",
       "@google-cloud/vision": "0.25.0",
