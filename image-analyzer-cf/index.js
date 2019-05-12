@@ -1,34 +1,31 @@
 'use strict';
 
-const storage = require('@google-cloud/storage')();
-const vision = require('@google-cloud/vision');
-const admin = require('firebase-admin');
-const functions = require('firebase-functions');
-
-admin.initializeApp(functions.config().firebase);
+const Vision = require('@google-cloud/vision');
+const Firestore = require('@google-cloud/firestore');
 
 exports.AnalyzeImage = (event, context) => {
     console.log(event);
     console.log(context);
 
-    // Creates a client
-    const client = new vision.ImageAnnotatorClient();
+    // Create a new client
+    const firestore = new Firestore();
+    const vision = new Vision.ImageAnnotatorClient();
   
     // Performs label detection on the image file
-    client.labelDetection(`gs://${event.bucket}/${event.name}`)
-    .then(results => {
-        const labels = results[0].labelAnnotations;
+    vision
+        .labelDetection(`gs://${event.bucket}/${event.name}`)
+        .then(results => {
+            const labels = results[0].labelAnnotations;
 
-        var docRef = admin.firestore().collection('images').doc(context.eventId);
+            // Create a new empty document
+            const document = firestore.doc(`images/${context.eventId}`);
 
-        var setAda = docRef.set({
-            name: event.name,
-            labels: labels
+            // Enter new data into the document
+            document.set({
+                name: event.name,
+                labels: labels
+            });
+        }).catch(err => {
+            console.error('ERROR.', err);
         });
-  
-        console.log('Labels:');
-        labels.forEach(label => console.log(label.description));
-    }).catch(err => {
-        console.error('ERROR.', err);
-    });
 };
