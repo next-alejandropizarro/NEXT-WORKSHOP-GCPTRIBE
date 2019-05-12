@@ -1,0 +1,10 @@
+{
+    "name": "sample-cloud-storage",
+    "version": "0.0.1",
+    "dependencies": {
+      "@google-cloud/storage": "^1.6.0",
+      "@google-cloud/vision": "0.25.0",
+      "firebase-admin": "^7.3.0",
+      "firebase-functions": "^2.3.1"
+    }
+}
