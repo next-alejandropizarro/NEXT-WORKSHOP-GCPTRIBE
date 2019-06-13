@@ -24,45 +24,18 @@ class ImageUpload extends Component {
         }, 10000)
     }
 
-    addImageWithTags(doc, newArray, url){
-        var tags = [];
-        for (var label in doc.data().labels) {
-            tags.push({value: doc.data().labels[label].description, title: doc.data().labels[label].description});
-        }
-        newArray.push({src: url,thumbnail: url,thumbnailWidth: 320, thumbnailHeight: 212, tags: tags});
-    }
-
     componentDidMount(){
         var newArray = this.state.images.slice();
-        var imageRef = database.collection('images');
-        imageRef.get()
-            .then(snapshot => {
-                snapshot.forEach(doc => {
-                    storage.ref().child(doc.data().name).getDownloadURL().then(url => {
-                        this.addImageWithTags(doc, newArray, url);
-                    });
-                });
-            })
-            .catch(err => {
-                console.log('Error getting documents', err);
-            });
+        var imageRef = //TO DO
+        // Iterate for each document and tags to push on newArray for show the images
+
         this.getData(newArray);
     }
 
     insertImage(image){
-        var imageRef = database.collection('images');
-        var doc = imageRef.where('name', '==',image.name).limit(1)
-        doc.onSnapshot(docSnapshot => {
-            docSnapshot.docs.forEach(elem => {
-                    storage.ref().child(image.name).getDownloadURL().then(url => {
-                        this.setState({url})
-                        var newArray = this.state.images.slice();
-                        this.addImageWithTags(elem, newArray, url);
-                        this.setState({images:newArray});
-                    });
-                }
-            );
-        });
+
+        var imageRef = // TO DO
+        var doc = // TO DO
     }
 
     onDrop(picture) {
