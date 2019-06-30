@@ -1,3 +1,6 @@
 .DS_Store
 
 image-analyzer-cf/.DS_Store
+
+images-drawer-react/node_modules/
+images-drawer-react/package-lock.json
