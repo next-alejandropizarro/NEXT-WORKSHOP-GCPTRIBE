@@ -4,4 +4,4 @@ import 'firebase/firestore';
 
 // TO DO Initialize config Firebase
 
-export const storage = // TO DO 
+//export const storage = 

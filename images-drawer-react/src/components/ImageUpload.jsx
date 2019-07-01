@@ -17,7 +17,7 @@ class ImageUpload extends Component {
     onDrop(picture) {
         const image = picture[Object.keys(picture).length - 1];
         this.setState(() => ({image}));
-        const uploadTask = // TO DO
+        //const uploadTask = TO DO
     }
 
     render() {
