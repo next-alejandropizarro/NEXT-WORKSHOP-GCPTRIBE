@@ -34,8 +34,8 @@ class ImageUpload extends Component {
 
     insertImage(image){
 
-        var imageRef = // TO DO
-        var doc = // TO DO
+        //var imageRef = // TO DO
+        //var doc = // TO DO
     }
 
     onDrop(picture) {
