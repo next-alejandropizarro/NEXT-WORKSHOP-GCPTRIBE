@@ -65,7 +65,29 @@ npm start
 ## Google Cloud Storage
 
 
+## Google Cloud Fuctions
+
+Para procesar las imágenes que se suben a la aplicación, vamos a generar una Cloud Function. Esta función será la encargada de invocar al API de Vision de Google, analizar la imagen detectando las entidades que en ella se encuentran y almacenando dicha información en Google Cloud Firestore.
+
+ 1. Para crear la función, iremos hasta "Cloud Functions" dentro de nuestro proyecto en GCP.
+ 2. Una vez aquí, pulsaremos sobre "Create Function", ubicado en la parte superior.
+ 3. A continuación, introduciremos la siguiente información.
+    1. Name: Nombre de la función a crear.
+    2. Trigger: Cloud Storage
+    3. Event type: Finalize/Create
+    4. Bucket: Seleccionaremos el bucket que hemos creado previamente.
+    5. Source code: Inline editor
+    6. Runtime: Node.js 8
+    7. index.js y package.json: proporcionados en el repositorio.
+    8. Function to execute: AnalyzeImage
+4. Una vez introducida esta información, pulsaremos sobre "Create" para proceder a la creación de la función.
+5. Una vez que Google nos avise de que esta ha sido creada, ya estará disponible para empezar a recibir peticiones.
 
 ## Google App Engine
 
 
+## Google Vision API
+
+
+
+## Google Firestore
