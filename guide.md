@@ -36,23 +36,6 @@ Para ello iremos a "APIs & Services -> Dashboard" dentro de nuestro proyecto Goo
  * Cloud Storage
  * Google Cloud Storage JSON API
 
-
-### Loguearnos en Google Cloud con gcloud
-
-Para poder interactuar con nuestro proyecto Google Cloud desde la linea de comandos, necesitaremos hacer login haciendo uso de gcloud.
-
-```bash
-gcloud init
-```
-
-### Crear un bucket de Google Cloud Storage
-
-Para alojar las imágenes de la aplicación de ejemplo, vamos a crear un bucket de Google Cloud Storage en el cual alojaremos estas.
-
-```bash
-gsutil mb -c regional -l $GCP_REGION -p $PROJECT_ID gs://$BUCKET_NAME
-```
-
 ## Entorno de desarrollo
 
 ### Ejecutar en local
@@ -64,6 +47,15 @@ npm start
 
 ## Google Cloud Storage
 
+Para alojar las imágenes de la aplicación de ejemplo, vamos a crear un bucket de Google Cloud Storage en el cual alojaremos estas.
+
+Para ello, desde Cloud Shell, ejecutaremos el siguiente comando.
+
+```bash
+gsutil mb -c regional -l $GCP_REGION -p $PROJECT_ID gs://$BUCKET_NAME
+```
+
+Este bucket será usado en los pasos posteriores.
 
 ## Google Cloud Fuctions
 
@@ -78,16 +70,15 @@ Para procesar las imágenes que se suben a la aplicación, vamos a generar una C
     4. Bucket: Seleccionaremos el bucket que hemos creado previamente.
     5. Source code: Inline editor
     6. Runtime: Node.js 8
-    7. index.js y package.json: proporcionados en el repositorio.
+    7. Completar el código fuente usando los ficheros [index.js](image-analyzer-cf/index.js) y [package.json](image-analyzer-cf/package.json).
     8. Function to execute: AnalyzeImage
 4. Una vez introducida esta información, pulsaremos sobre "Create" para proceder a la creación de la función.
 5. Una vez que Google nos avise de que esta ha sido creada, ya estará disponible para empezar a recibir peticiones.
 
-## Google App Engine
-
-
 ## Google Vision API
 
-
+Para este workshop, haremos uso de la funcionalidad de [detección de etiquetas](https://cloud.google.com/vision/docs/labels) sobre imágenes, para poder categorizarlas de forma automática.
 
 ## Google Firestore
+
+## Google App Engine
