@@ -4,6 +4,8 @@
 
 ### Herramientas y frameworks de desarrollo
 
+Opcional: Únicamente sería necesario si no se trabaja desde Cloud Shell.
+
 Hemos de instalar si es que aún no lo tenemos las siguientes herramientas.
 
 * [Google Cloud SDK](https://cloud.google.com/sdk/install)
@@ -97,7 +99,7 @@ A través de estos pasos, crearemos y configuraremos una aplicación React de ba
 
 Veamos como integrar Firebase con nuestro proyecto de React, para comunicar de manera sencilla, distintos servicios de almacenamiento o base de datos que ya hemos usado antes. Además, bucearemos en la documentación de la API, para interactuar con Cloud Storage y Cloud Firestore.
 
- 1. Ir a la consola de Firebase
+ 1. Ir a la [consola](https://console.firebase.google.com) de Firebase
  2. Añadir proyecto
  3. Registrar aplicación
  4. Añadir SDK de Firebase en firebase/index.js y exportar variable storage.
