@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  border: 10px solid white;
+  border-left: 80px solid white;
+  border-right: 80px solid white;
+}
+
+.header {
+  padding: 10px;
+  position: relative;
+  background: #D3D3D3;
+  color: white;
+  font-size: 30px;
+}
+
+.center {
+  height: 800px;
+  position: relative;
+}
+
+.center p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+.column2 {
+  float: right;
+  color: #14549c;
+  font-family: Courier;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#example-0 {
+  zoom: 1;
+  -moz-transform: scale(1);
+  -moz-transform-origin: 0 0;
+}
