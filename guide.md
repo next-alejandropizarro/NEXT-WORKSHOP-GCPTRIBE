@@ -4,7 +4,7 @@
 
 ### Herramientas y frameworks de desarrollo
 
-**Opcional:** Únicamente sería necesario si no se trabaja desde Cloud Shell.
+**Opcional:** Únicamente sería necesario realizar este paso si no se trabaja desde Cloud Shell.
 
 Hemos de instalar las siguientes herramientas.
 
@@ -29,7 +29,25 @@ Para poder realizar este workshop, necesitaremos disponer de un proyecto de Goog
 
 Una vez que tengamos acceso a este, lo primero que haremos será habilitar las APIs de Google con las que vamos a trabajar.
 
-Para ello iremos a "APIs & Services -> Dashboard" dentro de nuestro proyecto Google Cloud. Una vez aquí habilitaremos (si es que ya no lo están) las siguientes APIs.
+Para ello, lo podremos hacer tanto con `gcloud` como desde la consola de Google Cloud.
+
+#### GCloud
+
+Para realizar la activación de las API's con GCloud, introduciremos el siguiente código en Cloud Shell.
+
+```bash
+    gcloud services enable cloudfunctions.googleapis.com \
+        vision.googleapis.com \
+        pubsub.googleapis.com \
+        appengine.googleapis.com \
+        firestore.googleapis.com \
+        storage-component.googleapis.com \
+        storage-api.googleapis.com
+```
+
+#### Consola
+
+Para realizar lo mismo desde la consola de GCP, iremos a "APIs & Services -> Dashboard" dentro de nuestro proyecto Google Cloud. Una vez aquí habilitaremos (si es que ya no lo están) las siguientes APIs.
  * Cloud Functions API
  * Cloud Vision API
  * Cloud Pub/Sub API
@@ -56,7 +74,7 @@ Una vez hecho esto, se nos abrirá nuestra terminal en la cloud.
 
 ### 1. Google Cloud Storage
 
-Para alojar las imágenes de la aplicación de ejemplo, vamos a crear un bucket de Google Cloud Storage en el cual alojaremos estas.
+Para alojar las imágenes que se van a usar en la aplicación de demo, vamos a crear un bucket de Google Cloud Storage en el cual iremos almacenando estas.
 
 Para ello, desde Cloud Shell, ejecutaremos el siguiente comando.
 
@@ -68,9 +86,9 @@ Este bucket será usado en los pasos posteriores.
 
 ### 2. Google Cloud Fuctions
 
-Para procesar las imágenes que se suben a la aplicación, vamos a generar una Cloud Function. Esta función será la encargada de invocar al API de Vision de Google, analizar la imagen detectando las entidades que en ella se encuentran y almacenando dicha información en Google Cloud Firestore.
+Para procesar las imágenes que se suben a la aplicación, vamos a generar una [Cloud Function](https://cloud.google.com/functions/). Esta función será la encargada de invocar al [API de Vision](https://cloud.google.com/vision/docs/) de Google, analizar la imagen detectando las entidades que en ella se encuentran y almacenar dicha información en [Firebase Database](https://firebase.google.com/docs/database) ([Cloud Firestore](https://cloud.google.com/firestore/docs/)).
 
- 1. Para crear la función, iremos hasta "Cloud Functions" dentro de nuestro proyecto en GCP.
+ 1. Para crear la función, iremos hasta [Cloud Functions](https://console.cloud.google.com/functions) dentro de nuestro proyecto en GCP.
  2. Una vez aquí, pulsaremos sobre "Create Function", ubicado en la parte superior.
  3. A continuación, introduciremos la siguiente información.
     1. Name: Nombre de la función a crear.
@@ -82,11 +100,13 @@ Para procesar las imágenes que se suben a la aplicación, vamos a generar una C
     7. Completar el código fuente usando los ficheros [index.js](image-analyzer-cf/index.js) y [package.json](image-analyzer-cf/package.json).
     8. Function to execute: AnalyzeImage
 4. Una vez introducida esta información, pulsaremos sobre "Create" para proceder a la creación de la función.
-5. Una vez que Google nos avise de que esta ha sido creada, ya estará disponible para empezar a recibir peticiones.
+5. Una vez que Google nos avise de que esta ha sido creada, ya estará disponible para empezar a recibir peticiones cada vez que se inserte una nueva imagen en nuestro bucket de Firebase Storage (Cloud Storage).
 
 ### 3. Google Vision API
 
 Para este workshop, haremos uso de la funcionalidad de [detección de etiquetas](https://cloud.google.com/vision/docs/labels) sobre imágenes, para poder categorizarlas de forma automática.
+
+Dentro del fichero [index.js](image-analyzer-cf/index.js) de nuestra función podremos ver el código fuente necesario para invocar a este API. Comentar también que necesitaremos incluir la dependencia necesaria para poder hacer uso de la librería de visión en el fichero [package.json](image-analyzer-cf/package.json).
 
 ### 4. Google App Engine
 
@@ -102,15 +122,20 @@ A través de estos pasos, crearemos y configuraremos una aplicación React de ba
  	* [App Engine Node.js](https://cloud.google.com/appengine/docs/standard/nodejs/config/appref)
  6. Desplegar aplicación: `gcloud app deploy`
 
-### 5. Firebase (Firestore)
+### 5. Firebase Database (Cloud Firestore) y Firebase Storage (Cloud Storage)
 
-Veamos como integrar Firebase con nuestro proyecto de React, para comunicar de manera sencilla, distintos servicios de almacenamiento o base de datos que ya hemos usado antes. Además, bucearemos en la documentación de la API, para interactuar con Cloud Storage y Cloud Firestore.
+A continuación, veremos como integrar Firebase (Database y Storage) con nuestro proyecto de demo, para comunicar de manera sencilla distintos servicios de almacenamiento o base de datos que ya hemos usado antes. Además, bucearemos en la documentación de la API, para interactuar con Firebase Storage (Cloud Storage) y Firebase Database (Cloud Firestore).
 
- 1. Ir a la [consola](https://console.firebase.google.com) de Firebase
- 2. Añadir proyecto
- 3. Registrar aplicación
- 4. Añadir SDK de Firebase en firebase/index.js y exportar variable storage.
- 	* [Firebase Storage](https://firebase.google.com/docs/storage/web/upload-files?hl=es-419)
- 5. Completar código src/components/ImageUpload.jsx, usando el método put, para subir la imágen al bucket. 
+ 1. Lo primero que haremos será acceder a la [consola](https://console.firebase.google.com) de Firebase
+ 2. Una vez aquí, crearemos nuestro proyecto Firebase, pulsando sobre "Añadir proyecto", completando la siguiente información.
+    1. Project name: seleccionaremos del desplegable el proyecto GCP que nos ha sido asignado para la realización de este workshop.
+    2. Marcaremos los dos check box para hacer uso de la configuración por defecto de Google Analytics para Firebase y aceptar los terminos y condiciones del servio.
+    3. Por último pulsaremos sobre "Add Firebase" lo que hará que se nos genere nuestro proyecto Firebase.
+    4. Si nos pide confirmación del plan de precios a usar, seleccionaremos "Pay as you go" (Blaze).
+ 3. Una vez que ya tenemos el proyecto creado, hemos de registrar nuestra aplicación. Para ello, desde la página principal de nuestro proyecto de Firebase, pulsaremos sobre "Add an app to get started", en concreto usaremos la aplicación web (simbolo </>).
+    1. Daremos un nombre a nuestra aplicación ("Demo App" por ejemplo)
+    2. No seleccionaremos el check box de Firebase Hosting, ya que nuestra app será desplegada en App Engine.
+    3. Por ultimo, compiaremos la configuración del SDK de Firebase que se nos muestra para nuestra aplicación en el fichero images-drawer-react/src/firebase/index.js que hemos descargado del repositorio de código, completando el parámetro `storageBucket` con el nombre que dimos a nuestro bucket cuando lo definimos en la variable de entorno `GCP_BUCKET`.
+ 5. Completar código images-drawer-react/src/components/ImageUpload.jsx, usando el método put, para subir la imágen al bucket. Documentación de referencia de subida de objetos a [Firebase Storage](https://firebase.google.com/docs/storage/web/upload-files?hl=es-419).
  6. Comprobar con rama feature/images-drawer-gallery-step.
  7. (Opcional). Usando el componente react-grid-gallery y firebase, listar las imágenes con sus etiquetas.
