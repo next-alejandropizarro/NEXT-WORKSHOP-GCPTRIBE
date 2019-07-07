@@ -4,9 +4,9 @@
 
 ### Herramientas y frameworks de desarrollo
 
-Opcional: Únicamente sería necesario si no se trabaja desde Cloud Shell.
+**Opcional:** Únicamente sería necesario si no se trabaja desde Cloud Shell.
 
-Hemos de instalar si es que aún no lo tenemos las siguientes herramientas.
+Hemos de instalar las siguientes herramientas.
 
 * [Google Cloud SDK](https://cloud.google.com/sdk/install)
 * [Node.js](https://nodejs.org/en/download/)
@@ -27,7 +27,7 @@ Aquí se puede consultar la [lista de regiones](https://cloud.google.com/storage
 
 Para poder realizar este workshop, necesitaremos disponer de un proyecto de Google Cloud. Este nos será facilitado al comienzo del mismo.
 
-Una vez que tengamos este proyecto habilitado, lo primero que haremos será habilitar las APIs de Google con las que vamos a trabajar.
+Una vez que tengamos acceso a este, lo primero que haremos será habilitar las APIs de Google con las que vamos a trabajar.
 
 Para ello iremos a "APIs & Services -> Dashboard" dentro de nuestro proyecto Google Cloud. Una vez aquí habilitaremos (si es que ya no lo están) las siguientes APIs.
  * Cloud Functions API
@@ -38,16 +38,23 @@ Para ello iremos a "APIs & Services -> Dashboard" dentro de nuestro proyecto Goo
  * Cloud Storage
  * Google Cloud Storage JSON API
 
-## Entorno de desarrollo
+## Cloud Shell
 
-### Ejecutar en local
+Para la realización de este workshop, vamos a trabajar haciendo uso de [Cloud Shell](https://cloud.google.com/shell/).
 
-```node
-npm install
-npm start
-```
+Cloud Shell nos permitirá trabajar en un entorno cloud en el cual tendremos todas las herramientas necesarias ya configuradas y listas para su uso.
 
-## Google Cloud Storage
+Para acceder a Cloud Shell desde la consola de GCP, una vez que estemos en nuestro proyecto asignado para el workshop, iremos a la parte superior derecha y haremos click sobre el icono de Cloud Shell, tal y como se muestra en a imagen.
+
+![Cloud Shell icon](images/cloud_shell_icon.png)
+
+Una vez hecho esto, se nos abrirá nuestra terminal en la cloud.
+
+![Cloud Shell terminal](images/cloud_shell_terminal.png)
+
+## Configurando los diferentes productos gestionados
+
+### 1. Google Cloud Storage
 
 Para alojar las imágenes de la aplicación de ejemplo, vamos a crear un bucket de Google Cloud Storage en el cual alojaremos estas.
 
@@ -59,7 +66,7 @@ gsutil mb -c regional -l $GCP_REGION -p $PROJECT_ID gs://$BUCKET_NAME
 
 Este bucket será usado en los pasos posteriores.
 
-## Google Cloud Fuctions
+### 2. Google Cloud Fuctions
 
 Para procesar las imágenes que se suben a la aplicación, vamos a generar una Cloud Function. Esta función será la encargada de invocar al API de Vision de Google, analizar la imagen detectando las entidades que en ella se encuentran y almacenando dicha información en Google Cloud Firestore.
 
@@ -77,11 +84,11 @@ Para procesar las imágenes que se suben a la aplicación, vamos a generar una C
 4. Una vez introducida esta información, pulsaremos sobre "Create" para proceder a la creación de la función.
 5. Una vez que Google nos avise de que esta ha sido creada, ya estará disponible para empezar a recibir peticiones.
 
-## Google Vision API
+### 3. Google Vision API
 
 Para este workshop, haremos uso de la funcionalidad de [detección de etiquetas](https://cloud.google.com/vision/docs/labels) sobre imágenes, para poder categorizarlas de forma automática.
 
-## Google App Engine
+### 4. Google App Engine
 
 A través de estos pasos, crearemos y configuraremos una aplicación React de base en App Engine:
 
@@ -95,7 +102,7 @@ A través de estos pasos, crearemos y configuraremos una aplicación React de ba
  	* [App Engine Node.js](https://cloud.google.com/appengine/docs/standard/nodejs/config/appref)
  6. Desplegar aplicación: `gcloud app deploy`
 
-## Firebase
+### 5. Firebase (Firestore)
 
 Veamos como integrar Firebase con nuestro proyecto de React, para comunicar de manera sencilla, distintos servicios de almacenamiento o base de datos que ya hemos usado antes. Además, bucearemos en la documentación de la API, para interactuar con Cloud Storage y Cloud Firestore.
 
